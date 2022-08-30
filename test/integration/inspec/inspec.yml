@@ -1,0 +1,4 @@
+name: osl-gpu
+inputs:
+  - name: driver_version
+    value: 515

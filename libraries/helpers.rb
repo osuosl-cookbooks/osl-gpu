@@ -22,13 +22,15 @@ module OSLGPU
         "https://developer.download.nvidia.com/compute/cuda/repos/#{platform}/#{arch}/cuda-keyring_1.0-1_all.deb"
       end
 
-      def default_driver_version(runfile_install)
-        if runfile_install
-          '515'
-        elsif platform_family?('rhel')
-          'latest-dkms'
+      def driver_pkg_version(version)
+        if version == 'latest'
+          if platform_family?('rhel')
+            'latest-dkms'
+          else
+            '515'
+          end
         else
-          '515'
+          version
         end
       end
 
@@ -43,7 +45,7 @@ module OSLGPU
 
       def runfile_versions(version)
         case version
-        when '515', '11.7'
+        when '515', '11.7', 'latest'
           {
             'driver' => '515.65.01',
             'cuda' => '11.7.1',

@@ -1,5 +1,5 @@
-resource_name :osl_nvidia_install
-provides :osl_nvidia_install
+resource_name :osl_nvidia_driver
+provides :osl_nvidia_driver
 unified_mode true
 include OSLGPU::Cookbook::Helpers
 
@@ -15,7 +15,7 @@ action :install do
   if new_resource.runfile_install
     include_recipe 'osl-repos::epel' if platform_family?('rhel') && new_resource.add_repos
 
-    build_essential 'nvidia_install'
+    build_essential 'nvidia_driver'
 
     package runfile_pkgs
 
@@ -46,6 +46,7 @@ action :install do
       only_if { nvidia_driver_installed? }
     end
   else
+    nvidia_pkg_ver = driver_pkg_version(new_resource.version)
     case node['platform_family']
     when 'rhel'
       if new_resource.add_repos
@@ -60,12 +61,14 @@ action :install do
       end
 
       if node['platform_version'].to_i >= 8
-        dnf_module "nvidia-driver:#{new_resource.version}" do
+        package 'kernel-devel'
+
+        dnf_module "nvidia-driver:#{nvidia_pkg_ver}" do
           action :install
         end
       else
         package [
-          "nvidia-driver-#{new_resource.version}",
+          "nvidia-driver-#{nvidia_pkg_ver}",
           'kernel-devel',
         ]
       end
@@ -81,7 +84,7 @@ action :install do
 
       apt_update 'cuda-keyring'
 
-      package "nvidia-driver-#{new_resource.version}" do
+      package "nvidia-driver-#{nvidia_pkg_ver}" do
         timeout 3600
       end
     else

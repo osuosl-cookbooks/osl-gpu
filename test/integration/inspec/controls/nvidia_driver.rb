@@ -1,6 +1,6 @@
 driver_version = input('driver_version')
 
-control 'nvidia_install' do
+control 'nvidia_driver' do
   describe command 'modinfo nvidia' do
     its('exit_status') { should eq 0 }
     its('stdout') { should match /version:\s+#{driver_version}/ }

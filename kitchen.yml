@@ -15,18 +15,18 @@ provisioner:
   deprecations_as_errors: true
 
 suites:
-  - name: nvidia-install-pkg
+  - name: nvidia-driver-pkg
     run_list:
-      - recipe[osl-gpu-test::nvidia_install_pkg]
+      - recipe[osl-gpu-test::nvidia_driver_pkg]
     verifier:
       controls:
-        - nvidia_install
-  - name: nvidia-install-runfile
+        - nvidia_driver
+  - name: nvidia-driver-runfile
     run_list:
-      - recipe[osl-gpu-test::nvidia_install_runfile]
+      - recipe[osl-gpu-test::nvidia_driver_runfile]
     verifier:
       controls:
-        - nvidia_install
+        - nvidia_driver
   - name: cuda-pkg
     run_list:
       - recipe[osl-gpu-test::cuda_pkg]

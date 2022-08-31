@@ -25,19 +25,10 @@ module OSLGPU
       def default_driver_version(runfile_install)
         if runfile_install
           '515'
+        elsif platform_family?('rhel')
+          'latest-dkms'
         else
-          if platform_family?('rhel')
-            'latest-dkms'
-          else
-            '515'
-          end
-        end
-      end
-
-      def default_cuda_version(version)
-        case version
-        when '11.7'
-          '11.7.1'
+          '515'
         end
       end
 
@@ -63,7 +54,7 @@ module OSLGPU
       def runfile_pkgs
         if platform_family?('rhel')
           [
-            "dkms",
+            'dkms',
             "kernel-devel-#{node['kernel']['release']}",
             "kernel-headers-#{node['kernel']['release']}",
           ]
@@ -91,6 +82,14 @@ module OSLGPU
         cmd.exitstatus == 0
       rescue
         false
+      end
+
+      def cuda_installed?(version)
+        ::File.exist?("/usr/local/cuda-#{version}")
+      end
+
+      def cuda_pkg_ver(version)
+        version.gsub('.', '-')
       end
 
       # sh cuda_11.7.1_515.65.01_linux_ppc64le.run --toolkit --silent

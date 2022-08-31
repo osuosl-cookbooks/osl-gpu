@@ -18,9 +18,24 @@ suites:
   - name: nvidia-install-pkg
     run_list:
       - recipe[osl-gpu-test::nvidia_install_pkg]
+    verifier:
+      controls:
+        - nvidia_install
   - name: nvidia-install-runfile
     run_list:
       - recipe[osl-gpu-test::nvidia_install_runfile]
     verifier:
       controls:
         - nvidia_install
+  - name: cuda-pkg
+    run_list:
+      - recipe[osl-gpu-test::cuda_pkg]
+    verifier:
+      controls:
+        - cuda
+  - name: cuda-runfile
+    run_list:
+      - recipe[osl-gpu-test::cuda_runfile]
+    verifier:
+      controls:
+        - cuda

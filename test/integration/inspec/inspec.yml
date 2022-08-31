@@ -2,3 +2,5 @@ name: osl-gpu
 inputs:
   - name: driver_version
     value: 515
+  - name: cuda_version
+    value: 11.7

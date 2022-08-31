@@ -1,5 +1,5 @@
-resource_name :osl_nvidia_install
-provides :osl_nvidia_install
+resource_name :osl_cuda
+provides :osl_cuda
 unified_mode true
 include OSLGPU::Cookbook::Helpers
 
@@ -15,60 +15,36 @@ action :install do
   if new_resource.runfile_install
     include_recipe 'osl-repos::epel' if platform_family?('rhel') && new_resource.add_repos
 
-    build_essential 'nvidia_install'
+    build_essential 'cuda'
 
-    package runfile_pkgs
+    package 'tar'
 
     remote_file "#{file_path}/cuda_linux.run" do
       source default_runfile_url(new_resource.version)
       show_progress true
       action :create_if_missing
+      not_if { cuda_installed?(new_resource.version) }
     end
 
     execute 'cuda_linux.run' do
-      command "sh #{file_path}/cuda_linux.run --extract=#{file_path}/cuda_extracted"
-      creates "#{file_path}/cuda_extracted"
-      not_if { nvidia_driver_installed? }
+      command "sh #{file_path}/cuda_linux.run --toolkit --silent"
+      creates "/usr/local/cuda-#{new_resource.version}"
     end
 
-    execute 'NVIDIA-Linux.run' do
-      command <<~EOC
-        sh #{file_path}/cuda_extracted/#{nvidia_runfile(new_resource.version)} \
-          --silent --disable-nouveau --dkms
-      EOC
-      live_stream true
-      not_if { nvidia_driver_installed? }
-    end
-
-    directory "#{file_path}/cuda_extracted" do
-      recursive true
-      action :delete
-      only_if { nvidia_driver_installed? }
+    # file resource takes longer for some reason
+    execute "rm -f #{file_path}/cuda_linux.run" do
+      only_if { cuda_installed?(new_resource.version) }
+      only_if { ::File.exist?("#{file_path}/cuda_linux.run") }
     end
   else
     case node['platform_family']
     when 'rhel'
-      if new_resource.add_repos
-        include_recipe 'osl-repos::centos'
-        include_recipe 'osl-repos::epel'
-      end
-
       yum_repository 'cuda' do
         baseurl 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch'
         gpgcheck true
         gpgkey 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch/D42D0685.pub'
       end
 
-      if node['platform_version'].to_i >= 8
-        dnf_module "nvidia-driver:#{new_resource.version}" do
-          action :install
-        end
-      else
-        package [
-          "nvidia-driver-#{new_resource.version}",
-          'kernel-devel',
-        ]
-      end
     when 'debian'
       remote_file "#{file_path}/cuda-keyring.deb" do
         source cuda_keyring_url
@@ -80,12 +56,12 @@ action :install do
       end
 
       apt_update 'cuda-keyring'
-
-      package "nvidia-driver-#{new_resource.version}" do
-        timeout 3600
-      end
     else
       raise 'platform not supported'
+    end
+
+    package "cuda-toolkit-#{cuda_pkg_ver(new_resource.version)}" do
+      timeout 3600
     end
   end
 end

@@ -1,20 +1,26 @@
 # osl-gpu
 
-TODO: Enter the cookbook description here.
+Install and manage drivers or software related to GPU hardware
 
 ## Requirements
 
 ### Platforms
 
-- CentOS 7+
+- RHEL 7, 8
+- Ubuntu 20.04
 
 ### Cookbooks
 
-## Attributes
+- [yum](https://supermarket.chef.io/cookbooks/yum)
+- [osl-repos](https://github.com/osuosl-cookbooks/osl-repos)
 
 ## Resources
 
-## Recipes
+The following resources are provided:
+
+- [osl_cuda](documentation/osl_cuda.md)
+- [osl_nouveau_driver](documentation/osl_nouveau_driver.md)
+- [osl_nvidia_driver](documentation/osl_nvidia_driver.md)
 
 ## Contributing
 

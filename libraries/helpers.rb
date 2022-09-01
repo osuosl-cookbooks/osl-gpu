@@ -93,8 +93,6 @@ module OSLGPU
       def cuda_pkg_ver(version)
         version.gsub('.', '-')
       end
-
-      # sh cuda_11.7.1_515.65.01_linux_ppc64le.run --toolkit --silent
     end
   end
 end

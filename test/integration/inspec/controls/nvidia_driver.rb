@@ -10,4 +10,9 @@ control 'nvidia_driver' do
     its('exit_status') { should eq 0 }
     its('stdout') { should match /^nvidia.*#{driver_version}.*installed$/ }
   end
+
+  describe kernel_module 'nouveau' do
+    it { should_not be_loaded }
+    it { should be_blacklisted }
+  end
 end

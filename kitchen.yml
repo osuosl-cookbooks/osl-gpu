@@ -21,12 +21,14 @@ suites:
     verifier:
       controls:
         - nvidia_driver
+        - nouveau_driver
   - name: nvidia-driver-runfile
     run_list:
       - recipe[osl-gpu-test::nvidia_driver_runfile]
     verifier:
       controls:
         - nvidia_driver
+        - nouveau_driver
   - name: cuda-pkg
     run_list:
       - recipe[osl-gpu-test::cuda_pkg]
@@ -39,3 +41,9 @@ suites:
     verifier:
       controls:
         - cuda
+  - name: nouveau-driver
+    run_list:
+      - recipe[osl-gpu-test::nouveau_driver]
+    verifier:
+      controls:
+        - nouveau_driver

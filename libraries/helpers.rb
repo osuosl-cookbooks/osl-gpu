@@ -93,6 +93,18 @@ module OSLGPU
       def cuda_pkg_ver(version)
         version.gsub('.', '-')
       end
+
+      def update_grub
+        if platform_family?('rhel')
+          if node['kernel']['machine'] == 'aarch64'
+            'grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg'
+          else
+            'grub2-mkconfig -o /boot/grub2/grub.cfg'
+          end
+        else
+          'update-grub'
+        end
+      end
     end
   end
 end

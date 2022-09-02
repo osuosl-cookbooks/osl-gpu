@@ -52,12 +52,12 @@ action :install do
       if new_resource.add_repos
         include_recipe 'osl-repos::centos'
         include_recipe 'osl-repos::epel'
-      end
 
-      yum_repository 'cuda' do
-        baseurl 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch'
-        gpgcheck true
-        gpgkey 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch/D42D0685.pub'
+        yum_repository 'cuda' do
+          baseurl 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch'
+          gpgcheck true
+          gpgkey 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch/D42D0685.pub'
+        end
       end
 
       if node['platform_version'].to_i >= 8

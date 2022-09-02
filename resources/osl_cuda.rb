@@ -43,7 +43,7 @@ action :install do
         baseurl 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch'
         gpgcheck true
         gpgkey 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch/D42D0685.pub'
-      end
+      end if new_resource.add_repos
 
     when 'debian'
       remote_file "#{file_path}/cuda-keyring.deb" do

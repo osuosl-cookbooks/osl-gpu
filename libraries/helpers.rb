@@ -34,6 +34,14 @@ module OSLGPU
         end
       end
 
+      def cuda_pkg_version(version)
+        if version == 'latest'
+          '11.7'
+        else
+          version
+        end
+      end
+
       def runfile_suffix
         case node['kernel']['machine']
         when 'ppc64le'

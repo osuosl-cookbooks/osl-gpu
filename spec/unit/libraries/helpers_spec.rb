@@ -143,6 +143,20 @@ RSpec.describe OSLGPU::Cookbook::Helpers do
     end
   end
 
+  describe '#cuda_pkg_version' do
+    context 'latest' do
+      it do
+        expect(subject.cuda_pkg_version('latest')).to eq '11.7'
+      end
+    end
+
+    context 'manual version' do
+      it do
+        expect(subject.cuda_pkg_version('100')).to eq '100'
+      end
+    end
+  end
+
   describe '#runfile_suffix' do
     before do
       allow(subject).to receive(:[]).with('kernel').and_return(machine)

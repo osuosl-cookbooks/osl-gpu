@@ -60,7 +60,7 @@ action :install do
       raise 'platform not supported'
     end
 
-    package "cuda-toolkit-#{cuda_pkg_ver(new_resource.version)}" do
+    package "cuda-toolkit-#{cuda_pkg_ver(cuda_pkg_version(new_resource.version))}" do
       timeout 3600
     end
   end

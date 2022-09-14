@@ -8,7 +8,13 @@ default_action :disable
 action :disable do
   kernel_module 'nouveau' do
     action :blacklist
+    notifies :run, 'execute[update-initrd]'
     notifies :run, 'execute[update-grub]'
+  end
+
+  execute 'update-initrd' do
+    command update_initrd
+    action :nothing
   end
 
   execute 'update-grub' do

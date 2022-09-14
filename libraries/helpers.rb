@@ -102,6 +102,14 @@ module OSLGPU
         version.gsub('.', '-')
       end
 
+      def update_initrd
+        if platform_family?('rhel')
+          'dracut --force'
+        else
+          'update-initramfs -u'
+        end
+      end
+
       def update_grub
         if platform_family?('rhel')
           if node['kernel']['machine'] == 'aarch64'

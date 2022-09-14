@@ -38,6 +38,8 @@ action :install do
       EOC
       live_stream true
       not_if { nvidia_driver_installed? }
+      notifies :run, 'execute[update-initrd]'
+      notifies :run, 'execute[update-grub]'
     end
 
     directory "#{file_path}/cuda_extracted" do
@@ -65,12 +67,18 @@ action :install do
 
         dnf_module "nvidia-driver:#{nvidia_pkg_ver}" do
           action :install
+          notifies :run, 'execute[update-initrd]'
+          notifies :run, 'execute[update-grub]'
         end
       else
         package [
           "nvidia-driver-#{nvidia_pkg_ver}",
           'kernel-devel',
-        ]
+        ] do
+          timeout 3600
+          notifies :run, 'execute[update-initrd]'
+          notifies :run, 'execute[update-grub]'
+        end
       end
     when 'debian'
       remote_file "#{file_path}/cuda-keyring.deb" do
@@ -86,10 +94,22 @@ action :install do
 
       package "nvidia-driver-#{nvidia_pkg_ver}" do
         timeout 3600
+        notifies :run, 'execute[update-initrd]'
+        notifies :run, 'execute[update-grub]'
       end
     else
       raise 'platform not supported'
     end
+  end
+
+  execute 'update-initrd' do
+    command update_initrd
+    action :nothing
+  end
+
+  execute 'update-grub' do
+    command update_grub
+    action :nothing
   end
 end
 

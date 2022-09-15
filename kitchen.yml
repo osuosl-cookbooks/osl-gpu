@@ -43,7 +43,7 @@ suites:
         - cuda
   - name: nouveau-driver
     run_list:
-      - recipe[osl-gpu-test::nouveau_driver]
+      - recipe[osl-gpu::default]
     verifier:
       controls:
         - nouveau_driver

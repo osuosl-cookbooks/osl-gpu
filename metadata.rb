@@ -10,3 +10,7 @@ version           '0.1.0'
 
 supports          'centos', '~> 7.0'
 supports          'centos_stream', '~> 8.0'
+supports          'ubuntu', '~> 20.04'
+
+depends 'yum'
+depends 'osl-repos'

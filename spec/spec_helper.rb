@@ -1,21 +1,10 @@
 require 'chefspec'
 require 'chefspec/berkshelf'
 
-CENTOS_7 = {
-  platform: 'centos',
-  version: '7',
-}.freeze
-
-CENTOS_8 = {
-  platform: 'centos',
-  version: '8',
-}.freeze
-
-ALL_PLATFORMS = [
-  CENTOS_7,
-  CENTOS_8,
-].freeze
+# Require all our libraries
+Dir['libraries/*.rb'].each { |f| require File.expand_path(f) }
 
 RSpec.configure do |config|
   config.log_level = :warn
+  config.file_cache_path = '/var/chef/cache'
 end

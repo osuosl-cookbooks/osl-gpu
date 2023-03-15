@@ -12,6 +12,12 @@ property :runfile_install, [true, false], default: lazy { runfile_install? }
 action :install do
   file_path = Chef::Config[:file_cache_path]
 
+  package 'dracut-config-generic' do
+    action :remove
+  end if platform_family?('rhel')
+
+  osl_nouveau_driver 'default'
+
   if new_resource.runfile_install
     include_recipe 'osl-repos::epel' if platform_family?('rhel') && new_resource.add_repos
 
@@ -52,7 +58,8 @@ action :install do
     case node['platform_family']
     when 'rhel'
       if new_resource.add_repos
-        include_recipe 'osl-repos::centos'
+        include_recipe 'osl-repos::centos' if platform?('centos')
+        include_recipe 'osl-repos::alma' if platform?('almalinux')
         include_recipe 'osl-repos::epel'
 
         yum_repository 'cuda' do
@@ -63,7 +70,7 @@ action :install do
       end
 
       if node['platform_version'].to_i >= 8
-        package 'kernel-devel'
+        package "kernel-devel-#{node['kernel']['release']}"
 
         dnf_module "nvidia-driver:#{nvidia_pkg_ver}" do
           action :install

@@ -6,6 +6,10 @@ include OSLGPU::Cookbook::Helpers
 default_action :disable
 
 action :disable do
+  package 'dracut-config-generic' do
+    action :remove
+  end if platform_family?('rhel')
+
   kernel_module 'nouveau' do
     action :blacklist
     notifies :run, 'execute[update-initrd]'

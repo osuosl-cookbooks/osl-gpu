@@ -9,6 +9,7 @@ chef_version      '>= 16.0'
 version           '1.0.0'
 
 supports          'centos', '~> 7.0'
+supports          'almalinux', '~> 8.0'
 supports          'centos_stream', '~> 8.0'
 supports          'ubuntu', '~> 20.04'
 

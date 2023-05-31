@@ -86,26 +86,6 @@ describe 'osl-gpu-test::nvidia_driver_pkg' do
     it { is_expected.to install_dnf_module('nvidia-driver:latest-dkms') }
   end
 
-  context 'centos 8 - x86' do
-    platform 'centos', '8'
-    cached(:subject) { chef_run }
-    step_into :osl_nvidia_driver
-
-    it { is_expected.to remove_package('dracut-config-generic') }
-    it { is_expected.to disable_osl_nouveau_driver('default') }
-    it { is_expected.to include_recipe('osl-repos::centos') }
-    it { is_expected.to include_recipe('osl-repos::epel') }
-    it do
-      is_expected.to create_yum_repository('cuda').with(
-        baseurl: 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch',
-        gpgcheck: true,
-        gpgkey: 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch/D42D0685.pub'
-      )
-    end
-    it { is_expected.to install_package('kernel-devel-4.18.0-193.6.3.el8_2.x86_64') }
-    it { is_expected.to install_dnf_module('nvidia-driver:latest-dkms') }
-  end
-
   context 'almalinux 8 - ppc64le' do
     platform 'almalinux', '8'
     automatic_attributes['kernel']['machine'] = 'ppc64le'
@@ -123,26 +103,6 @@ describe 'osl-gpu-test::nvidia_driver_pkg' do
       )
     end
     it { is_expected.to install_package('kernel-devel-4.18.0-348.2.1.el8_5.x86_64') }
-    it { is_expected.to install_dnf_module('nvidia-driver:latest-dkms') }
-  end
-
-  context 'centos 8 - ppc64le' do
-    platform 'centos', '8'
-    automatic_attributes['kernel']['machine'] = 'ppc64le'
-    cached(:subject) { chef_run }
-    step_into :osl_nvidia_driver
-
-    it { is_expected.to disable_osl_nouveau_driver('default') }
-    it { is_expected.to include_recipe('osl-repos::centos') }
-    it { is_expected.to include_recipe('osl-repos::epel') }
-    it do
-      is_expected.to create_yum_repository('cuda').with(
-        baseurl: 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch',
-        gpgcheck: true,
-        gpgkey: 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch/D42D0685.pub'
-      )
-    end
-    it { is_expected.to install_package('kernel-devel-4.18.0-193.6.3.el8_2.x86_64') }
     it { is_expected.to install_dnf_module('nvidia-driver:latest-dkms') }
   end
 

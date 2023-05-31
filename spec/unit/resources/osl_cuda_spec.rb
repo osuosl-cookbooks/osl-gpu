@@ -69,39 +69,8 @@ describe 'osl-gpu-test::cuda_pkg' do
     it { is_expected.to install_package('cuda-toolkit-11-7').with(timeout: 3600) }
   end
 
-  context 'centos 8 - x86' do
-    platform 'centos', '8'
-    cached(:subject) { chef_run }
-    step_into :osl_cuda
-
-    it do
-      is_expected.to create_yum_repository('cuda').with(
-        baseurl: 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch',
-        gpgcheck: true,
-        gpgkey: 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch/D42D0685.pub'
-      )
-    end
-    it { is_expected.to install_package('cuda-toolkit-11-7').with(timeout: 3600) }
-  end
-
   context 'almalinux 8 - ppc64le' do
     platform 'almalinux', '8'
-    automatic_attributes['kernel']['machine'] = 'ppc64le'
-    cached(:subject) { chef_run }
-    step_into :osl_cuda
-
-    it do
-      is_expected.to create_yum_repository('cuda').with(
-        baseurl: 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch',
-        gpgcheck: true,
-        gpgkey: 'https://developer.download.nvidia.com/compute/cuda/repos/rhel$releasever/$basearch/D42D0685.pub'
-      )
-    end
-    it { is_expected.to install_package('cuda-toolkit-11-7').with(timeout: 3600) }
-  end
-
-  context 'centos 8 - ppc64le' do
-    platform 'centos', '8'
     automatic_attributes['kernel']['machine'] = 'ppc64le'
     cached(:subject) { chef_run }
     step_into :osl_cuda

@@ -1,18 +1,26 @@
 ---
+driver:
+  name: vagrant
+
 verifier:
   name: inspec
   inspec_tests:
     - path: test/integration/inspec
 
-driver:
-  name: openstack
-  flavor_ref: 'm1.large'
+transport:
+  name: rsync
 
 provisioner:
   name: chef_infra
+  product_name: cinc
+  product_version: '17'
   enforce_idempotency: true
   multiple_converge: 2
   deprecations_as_errors: true
+
+platforms:
+  - name: almalinux-8
+  - name: centos-7
 
 suites:
   - name: nvidia-driver-pkg

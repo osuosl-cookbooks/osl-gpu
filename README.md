@@ -6,7 +6,7 @@ Install and manage drivers or software related to GPU hardware
 
 ### Platforms
 
-- RHEL 7, 8
+- RHEL 8
 - Ubuntu 20.04
 
 ### Cookbooks

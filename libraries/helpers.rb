@@ -27,7 +27,7 @@ module OSLGPU
           if platform_family?('rhel')
             'latest-dkms'
           else
-            '515'
+            '550'
           end
         else
           version
@@ -36,7 +36,7 @@ module OSLGPU
 
       def cuda_pkg_version(version)
         if version == 'latest'
-          '11.7'
+          '12.4'
         else
           version
         end
@@ -53,10 +53,10 @@ module OSLGPU
 
       def runfile_versions(version)
         case version
-        when '515', '11.7', 'latest'
+        when '550', '12.4', 'latest'
           {
-            'driver' => '515.65.01',
-            'cuda' => '11.7.1',
+            'driver' => '550.54.15',
+            'cuda' => '12.4.1',
           }
         end
       end
@@ -113,7 +113,7 @@ module OSLGPU
       def update_grub
         if platform_family?('rhel')
           if node['kernel']['machine'] == 'aarch64'
-            'grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg'
+            'grub2-mkconfig -o /boot/efi/EFI/almalinux/grub.cfg'
           else
             'grub2-mkconfig -o /boot/grub2/grub.cfg'
           end

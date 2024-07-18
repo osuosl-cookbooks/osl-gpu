@@ -1,1 +1,1 @@
-osl_cuda '11.7'
+osl_cuda '12.4'

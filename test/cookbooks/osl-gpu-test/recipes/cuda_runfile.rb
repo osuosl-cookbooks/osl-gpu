@@ -1,3 +1,3 @@
-osl_cuda '11.7' do
+osl_cuda '12.4' do
   runfile_install true
 end

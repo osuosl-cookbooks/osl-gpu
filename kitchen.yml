@@ -22,6 +22,8 @@ suites:
       controls:
         - nvidia_driver
         - nouveau_driver
+      inputs:
+        pkg_install: true
   - name: nvidia-driver-runfile
     run_list:
       - recipe[osl-gpu-test::nvidia_driver_runfile]

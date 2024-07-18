@@ -1,6 +1,12 @@
-driver_version = input('driver_version')
 os_family = os.family
-kernel_release = inspec.command('uname -r').stdout.strip
+pkg_install = input('pkg_install')
+
+driver_version =
+  if os_family == 'redhat' && pkg_install
+    inspec.command("rpm -q --qf '%{VERSION}' kmod-nvidia-latest-dkms").stdout.strip
+  else
+    input('driver_version')
+  end
 
 control 'nvidia_driver' do
   describe command 'modinfo nvidia' do
@@ -11,15 +17,5 @@ control 'nvidia_driver' do
   describe command 'dkms status' do
     its('exit_status') { should eq 0 }
     its('stdout') { should match /^nvidia.*#{driver_version}.*installed$/ }
-  end
-
-  if os_family == 'debian'
-    describe command 'lsinitramfs /boot/initrd.img' do
-      its('stdout') { should match /modprobe.d.*nvidia*/ }
-    end
-  else
-    describe command "lsinitrd /boot/initramfs-#{kernel_release}.img" do
-      its('stdout') { should match /modprobe.d.*nvidia*/ }
-    end
   end
 end

@@ -58,8 +58,7 @@ action :install do
     case node['platform_family']
     when 'rhel'
       if new_resource.add_repos
-        include_recipe 'osl-repos::centos' if platform?('centos')
-        include_recipe 'osl-repos::alma' if platform?('almalinux')
+        include_recipe 'osl-repos::alma'
         include_recipe 'osl-repos::epel'
 
         yum_repository 'cuda' do
@@ -69,23 +68,12 @@ action :install do
         end
       end
 
-      if node['platform_version'].to_i >= 8
-        package "kernel-devel-#{node['kernel']['release']}"
+      package "kernel-devel-#{node['kernel']['release']}"
 
-        dnf_module "nvidia-driver:#{nvidia_pkg_ver}" do
-          action :install
-          notifies :run, 'execute[update-initrd]'
-          notifies :run, 'execute[update-grub]'
-        end
-      else
-        package [
-          "nvidia-driver-#{nvidia_pkg_ver}",
-          'kernel-devel',
-        ] do
-          timeout 3600
-          notifies :run, 'execute[update-initrd]'
-          notifies :run, 'execute[update-grub]'
-        end
+      dnf_module "nvidia-driver:#{nvidia_pkg_ver}" do
+        action :install
+        notifies :run, 'execute[update-initrd]'
+        notifies :run, 'execute[update-grub]'
       end
     when 'debian'
       remote_file "#{file_path}/cuda-keyring.deb" do
@@ -98,6 +86,8 @@ action :install do
       end
 
       apt_update 'cuda-keyring'
+
+      package "linux-headers-#{node['kernel']['release']}"
 
       package "nvidia-driver-#{nvidia_pkg_ver}" do
         timeout 3600

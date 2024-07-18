@@ -1,6 +1,8 @@
 name: osl-gpu
 inputs:
+  - name: pkg_install
+    value: false
   - name: driver_version
-    value: 515
+    value: 550
   - name: cuda_version
-    value: 11.7
+    value: 12.4

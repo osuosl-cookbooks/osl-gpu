@@ -25,29 +25,9 @@ RSpec.describe OSLGPU::Cookbook::Helpers do
       end
     end
 
-    context 'rhel 7 ppc64le' do
-      let(:platform_family) { 'rhel' }
-      let(:platform_version) { '7.0' }
-      let(:machine) { { 'machine' => 'ppc64le' } }
-
-      it do
-        expect(subject.runfile_install?).to eq true
-      end
-    end
-
     context 'rhel 8 x86_64' do
       let(:platform_family) { 'rhel' }
       let(:platform_version) { '8.0' }
-      let(:machine) { { 'machine' => 'x86_64' } }
-
-      it do
-        expect(subject.runfile_install?).to eq false
-      end
-    end
-
-    context 'rhel 7 x86_64' do
-      let(:platform_family) { 'rhel' }
-      let(:platform_version) { '7.0' }
       let(:machine) { { 'machine' => 'x86_64' } }
 
       it do
@@ -130,7 +110,7 @@ RSpec.describe OSLGPU::Cookbook::Helpers do
       let(:platform_family) { 'debian' }
 
       it do
-        expect(subject.driver_pkg_version('latest')).to eq '515'
+        expect(subject.driver_pkg_version('latest')).to eq '550'
       end
     end
 
@@ -146,7 +126,7 @@ RSpec.describe OSLGPU::Cookbook::Helpers do
   describe '#cuda_pkg_version' do
     context 'latest' do
       it do
-        expect(subject.cuda_pkg_version('latest')).to eq '11.7'
+        expect(subject.cuda_pkg_version('latest')).to eq '12.4'
       end
     end
 
@@ -181,10 +161,10 @@ RSpec.describe OSLGPU::Cookbook::Helpers do
 
   describe '#runfile_versions' do
     it do
-      expect(subject.runfile_versions('515')).to eq 'cuda' => '11.7.1', 'driver' => '515.65.01'
+      expect(subject.runfile_versions('550')).to eq 'cuda' => '12.4.1', 'driver' => '550.54.15'
     end
     it do
-      expect(subject.runfile_versions('11.7')).to eq 'cuda' => '11.7.1', 'driver' => '515.65.01'
+      expect(subject.runfile_versions('12.4')).to eq 'cuda' => '12.4.1', 'driver' => '550.54.15'
     end
   end
 
@@ -197,11 +177,11 @@ RSpec.describe OSLGPU::Cookbook::Helpers do
       let(:machine) { { 'machine' => 'x86_64' } }
 
       it do
-        expect(subject.default_runfile_url('515')).to eq 'https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda_11.7.1_515.65.01_linux.run'
+        expect(subject.default_runfile_url('550')).to eq 'https://developer.download.nvidia.com/compute/cuda/12.4.1/local_installers/cuda_12.4.1_550.54.15_linux.run'
       end
 
       it do
-        expect(subject.default_runfile_url('11.7')).to eq 'https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda_11.7.1_515.65.01_linux.run'
+        expect(subject.default_runfile_url('12.4')).to eq 'https://developer.download.nvidia.com/compute/cuda/12.4.1/local_installers/cuda_12.4.1_550.54.15_linux.run'
       end
     end
 
@@ -209,11 +189,11 @@ RSpec.describe OSLGPU::Cookbook::Helpers do
       let(:machine) { { 'machine' => 'ppc64le' } }
 
       it do
-        expect(subject.default_runfile_url('515')).to eq 'https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda_11.7.1_515.65.01_linux_ppc64le.run'
+        expect(subject.default_runfile_url('550')).to eq 'https://developer.download.nvidia.com/compute/cuda/12.4.1/local_installers/cuda_12.4.1_550.54.15_linux_ppc64le.run'
       end
 
       it do
-        expect(subject.default_runfile_url('11.7')).to eq 'https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda_11.7.1_515.65.01_linux_ppc64le.run'
+        expect(subject.default_runfile_url('12.4')).to eq 'https://developer.download.nvidia.com/compute/cuda/12.4.1/local_installers/cuda_12.4.1_550.54.15_linux_ppc64le.run'
       end
     end
   end

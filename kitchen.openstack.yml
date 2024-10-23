@@ -22,7 +22,12 @@ platforms:
   - name: almalinux-8
     driver_plugin: openstack
     driver_config:
-      image_ref: "AlmaLinux 8"
+      image_ref: "almalinux 8"
     transport:
       username: almalinux
-
+  - name: ubuntu-20.04
+    driver_plugin: openstack
+    driver_config:
+      image_ref: "Ubuntu 20.04"
+    transport:
+      username: ubuntu

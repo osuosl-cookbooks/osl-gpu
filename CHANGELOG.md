@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the osl-gpu cookbook.
 
+1.2.1 (2026-07-20)
+------------------
+- cinc: updated kitchen file
+
 1.2.0 (2024-07-18)
 ------------------
 - Remove support for CentOS 7 and CentOS Stream 8

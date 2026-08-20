@@ -2,7 +2,7 @@ source 'https://supermarket.chef.io'
 
 solver :ruby, :required
 
-cookbook 'osl-repos', git: 'git@github.com:osuosl-cookbooks/osl-repos'
+cookbook 'osl-repos', git: 'git@github.com:osuosl-cookbooks/osl-repos', branch: 'aokial/upstream-update'
 
 # Test
 cookbook 'apt'

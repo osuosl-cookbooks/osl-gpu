@@ -11,5 +11,5 @@ version           '1.2.2'
 supports 'almalinux', '~> 8.0'
 supports 'ubuntu', '~> 20.04'
 
-depends 'yum', '~> 8.0.0'
+depends 'yum', '>= 8.0.0'
 depends 'osl-repos'

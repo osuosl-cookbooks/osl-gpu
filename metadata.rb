@@ -8,8 +8,8 @@ source_url        'https://github.com/osuosl-cookbooks/osl-gpu'
 chef_version      '>= 16.0'
 version           '1.2.1'
 
-supports          'almalinux', '~> 8.0'
-supports          'ubuntu', '~> 20.04'
+supports 'almalinux', '~> 8.0'
+supports 'ubuntu', '~> 20.04'
 
 depends 'yum'
 depends 'osl-repos'

@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the osl-gpu cookbook.
 
+1.2.2 (2026-09-21)
+------------------
+- chef 19 update
+
 1.2.1 (2026-07-20)
 ------------------
 - cinc: updated kitchen file

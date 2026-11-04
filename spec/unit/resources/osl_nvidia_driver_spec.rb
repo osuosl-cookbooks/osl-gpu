@@ -74,6 +74,8 @@ describe 'osl-gpu-test::nvidia_driver_pkg' do
     cached(:subject) { chef_run }
     step_into :osl_nvidia_driver
 
+    it { is_expected.to periodic_apt_update('nvidia_driver') }
+
     it { is_expected.to_not remove_package('dracut-config-generic') }
     it { is_expected.to disable_osl_nouveau_driver('default') }
     it { is_expected.to_not include_recipe('osl-repos::epel') }

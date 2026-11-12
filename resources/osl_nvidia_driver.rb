@@ -21,6 +21,8 @@ action :install do
   if new_resource.runfile_install
     include_recipe 'osl-repos::epel' if platform_family?('rhel') && new_resource.add_repos
 
+    apt_update 'nvidia_driver' if platform_family?('debian')
+
     build_essential 'nvidia_driver'
 
     package runfile_pkgs

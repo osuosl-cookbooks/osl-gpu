@@ -67,6 +67,8 @@ describe 'osl-gpu-test::cuda_pkg' do
     it { is_expected.to install_build_essential('cuda') }
     it { is_expected.to install_package('tar') }
 
+    it { is_expected.to periodic_apt_update('cuda') }
+
     it do
       is_expected.to create_if_missing_remote_file('/var/chef/cache/cuda_linux.run').with(
         source: 'https://developer.download.nvidia.com/compute/cuda/12.4.1/local_installers/cuda_12.4.1_550.54.15_linux_ppc64le.run',

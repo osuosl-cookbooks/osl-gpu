@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the osl-gpu cookbook.
 
+1.2.3 (2026-11-12)
+------------------
+- Refresh apt cache before build_essential on Debian runfile installs
+
 1.2.2 (2026-09-21)
 ------------------
 - chef 19 update
